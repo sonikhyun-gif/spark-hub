@@ -1,6 +1,8 @@
 name: Build APK
 
 on:
+  push:
+    branches: [master]
   workflow_dispatch:
 
 jobs:
@@ -17,7 +19,6 @@ jobs:
           cd android
           chmod +x gradlew
           ./gradlew assembleDebug
-
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
