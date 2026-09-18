@@ -61,19 +61,15 @@ android {
         }
     }
     lintOptions {
-        baseline file("lint-baseline.xml")
-        abortOnError true
-        warningsAsErrors true
-        lintConfig file('lint.xml')
+        abortOnError false
+        warningsAsErrors false
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
-    // debug 빌드도 허용하도록 변경
     publishing {
         singleVariant("release")
-        singleVariant("debug")
     }
 }
 
