@@ -9,36 +9,20 @@ ext {
     androidxJunitVersion = project.hasProperty('androidxJunitVersion') ? rootProject.ext.androidxJunitVersion : '1.1.5'
     androidxEspressoCoreVersion = project.hasProperty('androidxEspressoCoreVersion') ? rootProject.ext.androidxEspressoCoreVersion : '3.5.1'
     cordovaAndroidVersion = project.hasProperty('cordovaAndroidVersion') ? rootProject.ext.cordovaAndroidVersion : '10.1.1'
+    kotlin_version = project.hasProperty("kotlin_version") ? rootProject.ext.kotlin_version : '1.9.10'
 }
 
-
 buildscript {
-    ext.kotlin_version = project.hasProperty("kotlin_version") ? rootProject.ext.kotlin_version : '1.9.10'
     repositories {
         google()
         mavenCentral()
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:8.2.1'
-
-        if (System.getenv("CAP_PUBLISH") == "true") {
-            classpath 'io.github.gradle-nexus:publish-plugin:1.3.0'
-        }
     }
 }
 
-tasks.withType(Javadoc).all { enabled = false }
-
 apply plugin: 'com.android.library'
-
-if (System.getenv("CAP_PUBLISH") == "true") {
-    apply plugin: 'io.github.gradle-nexus.publish-plugin'
-    apply from: file('../scripts/publish-root.gradle')
-    apply from: file('../scripts/publish-module.gradle')
-}
 
 android {
     namespace "com.getcapacitor.android"
@@ -49,7 +33,6 @@ android {
         versionCode 1
         versionName "1.0"
         consumerProguardFiles 'proguard-rules.pro'
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -68,9 +51,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
-    publishing {
-        singleVariant("release")
-    }
 }
 
 repositories {
@@ -80,17 +60,11 @@ repositories {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation platform("org.jetbrains.kotlin:kotlin-bom:$kotlin_version")
     implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
     implementation "androidx.core:core:$androidxCoreVersion"
     implementation "androidx.activity:activity:$androidxActivityVersion"
     implementation "androidx.fragment:fragment:$androidxFragmentVersion"
     implementation "androidx.coordinatorlayout:coordinatorlayout:$androidxCoordinatorLayoutVersion"
     implementation "androidx.webkit:webkit:$androidxWebkitVersion"
-    testImplementation "junit:junit:$junitVersion"
-    androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
     implementation "org.apache.cordova:framework:$cordovaAndroidVersion"
-    testImplementation 'org.json:json:20231013'
-    testImplementation 'org.mockito:mockito-inline:5.2.0'
 }
