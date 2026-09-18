@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#6366f1" />
+    <link rel="manifest" href="manifest.json" />
+    <title>Spark Hub</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <!-- 상단 네비바 -->
+    <nav id="navbar">
+        <button id="back-btn">← 뒤로</button>
+        <h1 id="title">Spark Hub</h1>
+    </nav>
+
+    <!-- 메인: 카테고리 그리드 -->
+    <div id="main-content">
+        <input type="text" id="search-input" placeholder="🔍 기능 검색..." />
+        <div id="category-grid"></div>
+    </div>
+
+    <!-- 하위 기능 목록 (숨김) -->
+    <div id="feature-list" class="hidden"></div>
+
+    <!-- iframe 컨테이너 (숨김) -->
+    <iframe id="service-frame" class="hidden" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation"></iframe>
+
+    <script src="app.js"></script>
+    <script>
+        // 서비스 워터스크립트 등록
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js')
+                .then(() => console.log('[Spark Hub] SW 등록 완료'))
+                .catch(err => console.error('[Spark Hub] SW 등록 실패:', err));
+        }
+    </script>
+</body>
+</html>
